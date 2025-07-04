@@ -2,15 +2,13 @@ body{
 background: #2e2e2e;
 display: flex;
 text-align: center;
-
 }
 
 #about{
 color: blueviolet;
 font-weight: bolder;
 font: 1.7em;
-
 display: flex;
 text-align: center;
-
+justify-content: center;
 }
