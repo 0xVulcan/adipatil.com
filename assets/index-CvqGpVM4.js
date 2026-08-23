@@ -52,30 +52,49 @@ Error generating stack: `+e.message+`
         void main() {
           vec2 uv = vUv;
           float time = uTime;
-          vec2 p = vec2(uv.x * uAspect, uv.y) * 2.15;
 
-          // Advect the field diagonally from the right toward the lower-left.
-          vec2 drift = vec2(time * 0.082, time * 0.036);
-          float warpA = fbm(p * 0.72 + drift * 0.42);
-          float warpB = fbm(p * 1.12 + vec2(warpA * 1.35, -warpA * 0.72) + drift);
-          float wisps = fbm(p * 1.78 + vec2(warpB * 1.42, warpA * 0.88) + drift * 1.55);
-          float density = smoothstep(0.39, 0.86, warpB * 0.62 + wisps * 0.58);
+          // The texture field moves left and down while its domain continuously curls.
+          vec2 p = vec2(uv.x * uAspect * 0.82, uv.y * 1.72);
+          vec2 drift = vec2(time * 0.11, time * 0.064);
+          float slowCurl = fbm(p * 0.46 + drift * 0.22);
+          vec2 curl = vec2(
+            fbm(p * 0.72 + vec2(slowCurl * 1.42, -slowCurl * 0.74) + drift * 0.48),
+            fbm(p * 0.72 + vec2(-slowCurl * 0.86, slowCurl * 1.28) + drift * 0.39)
+          );
+          vec2 warped = p + (curl - 0.5) * 2.15;
+          float body = fbm(warped * 0.88 + drift);
+          float detail = fbm(warped * 1.72 + vec2(body * 1.9, -body * 1.18) + drift * 1.36);
+          float threadNoise = fbm(warped * 3.15 + vec2(detail * 1.34, body * 1.72) + drift * 1.82);
 
-          // A broad stream remains strongest on the right and underneath the card.
-          float streamCenter = 0.22 + uv.x * 0.34 + (warpA - 0.5) * 0.16;
-          float stream = exp(-pow((uv.y - streamCenter) / 0.47, 2.0));
-          float rightBody = smoothstep(0.18, 0.98, uv.x);
-          float leftDissolve = smoothstep(max(0.015, uFadeEdge - 0.13), uFadeEdge + 0.24, uv.x);
-          float edgeSoftness = smoothstep(0.0, 0.1, uv.y) * (1.0 - smoothstep(0.9, 1.0, uv.y));
+          // High-frequency ridges give the plume dense, nebula-like filaments instead of blobs.
+          float filaments = 1.0 - abs(threadNoise * 2.0 - 1.0);
+          filaments = pow(filaments, 3.1);
+          float denseCore = smoothstep(0.38, 0.78, body * 0.64 + detail * 0.48);
+          float fineSmoke = smoothstep(0.26, 0.74, detail * 0.72 + filaments * 0.58);
+          float density = clamp(denseCore * 0.9 + fineSmoke * 0.72, 0.0, 1.0);
 
-          vec3 blue = vec3(0.19, 0.31, 0.98);
-          vec3 cyan = vec3(0.08, 0.72, 0.94);
+          // Confine the plume beneath a top-right to bottom-left diagonal path.
+          float diagonalEdge = 0.035 + uv.x * 0.93 + (slowCurl - 0.5) * 0.075;
+          float belowDiagonal = 1.0 - smoothstep(diagonalEdge - 0.035, diagonalEdge + 0.085, uv.y);
+          float plumeCenter = diagonalEdge - 0.245 + (curl.y - 0.5) * 0.11;
+          float plume = exp(-pow((uv.y - plumeCenter) / 0.34, 2.0));
+          float lowerHaze = smoothstep(0.0, diagonalEdge + 0.02, uv.y) * 0.32;
+          float stream = belowDiagonal * clamp(plume + lowerHaze, 0.0, 1.0);
+
+          float rightBody = smoothstep(0.13, 0.92, uv.x);
+          float leftDissolve = smoothstep(max(0.015, uFadeEdge - 0.1), uFadeEdge + 0.22, uv.x);
+          float edgeSoftness = smoothstep(0.0, 0.075, uv.y) * (1.0 - smoothstep(0.93, 1.0, uv.y));
+
+          vec3 deepBlue = vec3(0.105, 0.16, 0.68);
+          vec3 electricBlue = vec3(0.19, 0.38, 1.0);
+          vec3 cyan = vec3(0.05, 0.78, 0.94);
           vec3 acid = vec3(0.74, 1.0, 0.22);
-          vec3 color = mix(blue, cyan, smoothstep(0.34, 0.78, warpA));
-          color = mix(color, acid, smoothstep(0.71, 0.94, wisps) * 0.24);
+          vec3 color = mix(deepBlue, electricBlue, smoothstep(0.28, 0.75, body));
+          color = mix(color, cyan, smoothstep(0.48, 0.88, detail) * 0.72);
+          color = mix(color, acid, filaments * smoothstep(0.62, 0.91, detail) * 0.18);
 
           float alpha = density * stream * leftDissolve * edgeSoftness;
-          alpha *= mix(0.11, 0.27, rightBody);
+          alpha *= mix(0.31, 0.58, rightBody);
           if (alpha < 0.002) discard;
           gl_FragColor = vec4(color, alpha);
         }
