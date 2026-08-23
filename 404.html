@@ -144,7 +144,7 @@
 
       .voidFooterActions {
         justify-content: flex-start;
-        margin-top: 12px;
+        margin-top: 20px;
       }
 
       .voidFooterCenter {
@@ -193,12 +193,16 @@
       }
 
       .voidStatus {
-        margin: 24px 0 0;
-        font-size: 0.82rem;
+        max-width: 680px;
+        margin: 28px 0 0;
+        font-size: clamp(0.74rem, 0.8vw, 0.84rem);
+        letter-spacing: 0.01em;
+        line-height: 1.55;
       }
 
       .voidMessageActions {
-        margin-top: 22px;
+        gap: 14px;
+        margin-top: 18px;
         flex-wrap: wrap;
       }
 
@@ -208,8 +212,8 @@
         align-items: center;
         justify-content: center;
         gap: 9px;
-        min-height: 44px;
-        padding: 0 16px;
+        min-height: 46px;
+        padding: 0 18px;
         border: 1px solid rgba(247, 248, 255, 0.34);
         border-radius: 999px;
         background: rgba(3, 5, 10, 0.56);
@@ -291,10 +295,11 @@
 
       .voidFeed {
         display: grid;
-        gap: 4px;
+        gap: 6px;
         color: rgba(247, 248, 255, 0.64);
-        font-size: 0.62rem;
+        font-size: 0.68rem;
         letter-spacing: 0.09em;
+        line-height: 1.35;
         text-align: left;
         text-transform: uppercase;
       }
