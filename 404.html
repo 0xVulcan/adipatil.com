@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#03050a" />
+    <meta name="robots" content="noindex" />
+    <title>Page not found | Aditya Patil</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        background: #03050a;
+        color: #f7f8ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+      }
+
+      body {
+        overflow: hidden;
+        background: #03050a;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .voidPage {
+        position: relative;
+        isolation: isolate;
+        width: 100%;
+        min-height: 100svh;
+        overflow: hidden;
+      }
+
+      .voidBackground,
+      .voidShade,
+      .voidScanlines {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .voidBackground {
+        z-index: -3;
+        object-fit: cover;
+        object-position: center;
+        transform: scale(1.03);
+        animation: spaceDrift 14s ease-in-out infinite alternate;
+      }
+
+      .voidShade {
+        z-index: -2;
+        background:
+          linear-gradient(90deg, rgba(2, 4, 9, 0.92), rgba(2, 4, 9, 0.56) 52%, rgba(2, 4, 9, 0.18)),
+          linear-gradient(180deg, rgba(2, 4, 9, 0.24), rgba(2, 4, 9, 0.86));
+      }
+
+      .voidScanlines {
+        z-index: -1;
+        opacity: 0.16;
+        background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgba(118, 232, 255, 0.12) 4px);
+        pointer-events: none;
+      }
+
+      .voidHeader,
+      .voidFooter {
+        position: absolute;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: clamp(20px, 3vw, 42px);
+      }
+
+      .voidHeader {
+        top: 0;
+      }
+
+      .voidFooter {
+        bottom: 0;
+        align-items: flex-end;
+      }
+
+      .voidBrand,
+      .voidCode,
+      .voidKicker,
+      .voidCountdown span {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .voidBrand,
+      .voidKicker,
+      .voidCountdown strong {
+        color: #c9ff37;
+      }
+
+      .voidCode,
+      .voidStatus,
+      .voidCountdown span {
+        color: rgba(247, 248, 255, 0.68);
+      }
+
+      .voidBrand {
+        font-size: 1rem;
+        text-decoration: none;
+      }
+
+      .voidMessage {
+        position: absolute;
+        top: 50%;
+        left: clamp(20px, 7vw, 110px);
+        width: min(760px, calc(100% - 40px));
+        transform: translateY(-50%);
+      }
+
+      .voidKicker {
+        margin: 0 0 20px;
+      }
+
+      .voidMessage h1 {
+        max-width: 760px;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: clamp(2.8rem, 7vw, 7rem);
+        font-weight: 700;
+        letter-spacing: -0.06em;
+        line-height: 0.98;
+        text-wrap: balance;
+      }
+
+      .voidTyped::after {
+        content: "_";
+        color: #76e8ff;
+        animation: textCursor 0.7s steps(1, end) infinite;
+      }
+
+      .voidStatus {
+        margin: 24px 0 0;
+        font-size: 0.82rem;
+      }
+
+      .voidHome {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border: 1px solid rgba(247, 248, 255, 0.34);
+        border-radius: 999px;
+        background: rgba(3, 5, 10, 0.56);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+        text-transform: uppercase;
+        backdrop-filter: blur(10px);
+        transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      }
+
+      .voidHome:hover,
+      .voidHome:focus-visible {
+        border-color: #c9ff37;
+        color: #c9ff37;
+        transform: translateY(-2px);
+      }
+
+      .voidCountdown {
+        display: grid;
+        justify-items: end;
+        gap: 5px;
+        text-align: right;
+      }
+
+      .voidCountdown strong {
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+        line-height: 0.9;
+      }
+
+      .voidPage.isReturning .voidBackground {
+        animation: spaceJump 0.85s ease-in forwards;
+      }
+
+      .voidPage.isReturning .voidScanlines {
+        opacity: 0.5;
+      }
+
+      @keyframes spaceDrift {
+        to {
+          transform: scale(1.07) translate3d(-0.7%, -0.5%, 0);
+        }
+      }
+
+      @keyframes textCursor {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes spaceJump {
+        to {
+          filter: blur(8px);
+          transform: scale(1.35);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .voidMessage {
+          top: 46%;
+        }
+
+        .voidFooter {
+          align-items: center;
+        }
+
+        .voidCountdown span {
+          max-width: 140px;
+        }
+
+        .voidHome {
+          padding-inline: 13px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .voidBackground,
+        .voidTyped::after {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="voidPage" id="voidPage">
+      <img class="voidBackground" src="/lost-in-space-404.webp" alt="A distant spiral galaxy surrounded by a dense field of stars" />
+      <div class="voidShade" aria-hidden="true"></div>
+      <div class="voidScanlines" aria-hidden="true"></div>
+
+      <header class="voidHeader">
+        <a class="voidBrand" href="/" aria-label="Aditya Patil home">AP.</a>
+        <span class="voidCode">Error / 404</span>
+      </header>
+
+      <section class="voidMessage" aria-labelledby="voidTitle">
+        <p class="voidKicker">Unknown coordinates</p>
+        <h1 id="voidTitle">
+          <span class="voidTyped" id="voidTyped" aria-hidden="true"></span>
+          <span hidden>Hello traveler you have wanderer into unknown void</span>
+        </h1>
+        <p class="voidStatus" id="voidStatus" aria-live="polite">A route to home has been located.</p>
+      </section>
+
+      <footer class="voidFooter">
+        <a class="voidHome" href="/">Return home now</a>
+        <div class="voidCountdown" aria-label="Redirect countdown">
+          <span>Returning home in</span>
+          <strong id="voidNumber" aria-live="polite">10</strong>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      (() => {
+        const message = "Hello traveler you have wanderer into unknown void";
+        const page = document.getElementById("voidPage");
+        const typed = document.getElementById("voidTyped");
+        const number = document.getElementById("voidNumber");
+        const status = document.getElementById("voidStatus");
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let remaining = 10;
+        let character = 0;
+
+        number.textContent = String(remaining).padStart(2, "0");
+
+        if (reducedMotion) {
+          typed.textContent = message;
+        } else {
+          const typeTimer = window.setInterval(() => {
+            character += 1;
+            typed.textContent = message.slice(0, character);
+
+            if (character >= message.length) {
+              window.clearInterval(typeTimer);
+            }
+          }, 55);
+        }
+
+        const countdownTimer = window.setInterval(() => {
+          remaining -= 1;
+          number.textContent = String(remaining).padStart(2, "0");
+
+          if (remaining === 0) {
+            window.clearInterval(countdownTimer);
+            page.classList.add("isReturning");
+            status.textContent = "Returning home...";
+            window.setTimeout(() => window.location.replace("/"), reducedMotion ? 0 : 800);
+          }
+        }, 1000);
+      })();
+    </script>
+  </body>
+</html>
