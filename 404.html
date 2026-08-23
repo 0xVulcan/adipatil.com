@@ -147,6 +147,12 @@
         margin-top: 12px;
       }
 
+      .voidFooterCenter {
+        display: grid;
+        justify-items: center;
+        gap: 14px;
+      }
+
       .voidCode {
         justify-self: center;
         color: #f7f8ff;
@@ -407,13 +413,6 @@
 
       <header class="voidHeader">
         <a class="voidBrand" href="/" aria-label="Aditya Patil home">AP.</a>
-        <div class="voidHeaderActions">
-          <button class="voidControl" id="musicButton" type="button" aria-pressed="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l10-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="16" cy="16" r="3"></circle></svg>
-            <span id="musicLabel">Play music</span>
-            <span class="voidMusicBars" aria-hidden="true"><i></i><i></i><i></i></span>
-          </button>
-        </div>
       </header>
 
       <section class="voidMessage" aria-labelledby="voidTitle">
@@ -428,16 +427,16 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 6-6"></path><path d="m14 10 5-5"></path><path d="M10 3h7l4 4-8 8-6-6Z"></path><path d="M5 19h7"></path></svg>
             <span>Keep star gazing</span>
           </button>
+          <a class="voidHome" href="/">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8"></path><path d="M5 10v10h14V10"></path><path d="M9 20v-6h6v6"></path></svg>
+            Return home now
+          </a>
         </div>
         <div class="voidFooterActions">
           <div class="voidFeed" id="voidFeed" aria-live="polite">
             <strong>Static star field</strong>
             <span>Awaiting choice</span>
           </div>
-          <a class="voidHome" href="/">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8"></path><path d="M5 10v10h14V10"></path><path d="M9 20v-6h6v6"></path></svg>
-            Return home now
-          </a>
         </div>
       </section>
 
@@ -446,7 +445,14 @@
           <span>Returning home in</span>
           <strong id="voidNumber" aria-live="polite">10</strong>
         </div>
-        <span class="voidCode">Error / 404</span>
+        <div class="voidFooterCenter">
+          <button class="voidControl" id="musicButton" type="button" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l10-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="16" cy="16" r="3"></circle></svg>
+            <span id="musicLabel">Play music</span>
+            <span class="voidMusicBars" aria-hidden="true"><i></i><i></i><i></i></span>
+          </button>
+          <span class="voidCode">Error / 404</span>
+        </div>
       </footer>
     </main>
 
