@@ -71,7 +71,7 @@ Error generating stack: `+e.message+`
           filaments = pow(filaments, 3.1);
           float denseCore = smoothstep(0.38, 0.78, body * 0.64 + detail * 0.48);
           float fineSmoke = smoothstep(0.26, 0.74, detail * 0.72 + filaments * 0.58);
-          float density = clamp(denseCore * 0.9 + fineSmoke * 0.72, 0.0, 1.0);
+          float density = clamp(0.24 + denseCore * 0.72 + fineSmoke * 0.58, 0.0, 1.0);
 
           // Confine the plume beneath a top-right to bottom-left diagonal path.
           float diagonalEdge = 0.035 + uv.x * 0.93 + (slowCurl - 0.5) * 0.075;
@@ -81,20 +81,24 @@ Error generating stack: `+e.message+`
           float lowerHaze = smoothstep(0.0, diagonalEdge + 0.02, uv.y) * 0.32;
           float stream = belowDiagonal * clamp(plume + lowerHaze, 0.0, 1.0);
 
-          float rightBody = smoothstep(0.13, 0.92, uv.x);
-          float leftDissolve = smoothstep(max(0.015, uFadeEdge - 0.1), uFadeEdge + 0.22, uv.x);
+          float rightBody = smoothstep(0.08, 0.9, uv.x);
+          float leftDissolve = smoothstep(0.012, uFadeEdge + 0.075, uv.x);
+          float tailRange = smoothstep(0.008, 0.055, uv.x) * (1.0 - smoothstep(uFadeEdge + 0.02, uFadeEdge + 0.3, uv.x));
+          float tailPlume = exp(-pow((uv.y - (0.09 + slowCurl * 0.035)) / 0.19, 2.0)) * tailRange;
           float edgeSoftness = smoothstep(0.0, 0.075, uv.y) * (1.0 - smoothstep(0.93, 1.0, uv.y));
 
-          vec3 deepBlue = vec3(0.105, 0.16, 0.68);
-          vec3 electricBlue = vec3(0.19, 0.38, 1.0);
-          vec3 cyan = vec3(0.05, 0.78, 0.94);
-          vec3 acid = vec3(0.74, 1.0, 0.22);
-          vec3 color = mix(deepBlue, electricBlue, smoothstep(0.28, 0.75, body));
-          color = mix(color, cyan, smoothstep(0.48, 0.88, detail) * 0.72);
-          color = mix(color, acid, filaments * smoothstep(0.62, 0.91, detail) * 0.18);
+          vec3 richBlue = vec3(0.105, 0.29, 0.92);
+          vec3 electricBlue = vec3(0.16, 0.52, 1.0);
+          vec3 turquoise = vec3(0.025, 0.82, 0.72);
+          vec3 cosmicGreen = vec3(0.34, 0.96, 0.43);
+          vec3 color = mix(richBlue, electricBlue, smoothstep(0.22, 0.72, body));
+          color = mix(color, turquoise, smoothstep(0.38, 0.86, detail) * 0.76);
+          float greenFlow = smoothstep(0.12, 0.9, (1.0 - uv.x) * 0.62 + detail * 0.48);
+          color = mix(color, cosmicGreen, greenFlow * (0.28 + filaments * 0.24));
 
-          float alpha = density * stream * leftDissolve * edgeSoftness;
-          alpha *= mix(0.31, 0.58, rightBody);
+          float mainAlpha = density * stream * leftDissolve * mix(0.38, 0.62, rightBody);
+          float tailAlpha = density * tailPlume * 0.31;
+          float alpha = (mainAlpha + tailAlpha) * edgeSoftness;
           if (alpha < 0.002) discard;
           gl_FragColor = vec4(color, alpha);
         }
