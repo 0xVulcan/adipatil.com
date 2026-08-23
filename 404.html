@@ -143,7 +143,8 @@
       }
 
       .voidFooterActions {
-        justify-self: end;
+        justify-content: flex-start;
+        margin-top: 12px;
       }
 
       .voidCode {
@@ -288,7 +289,7 @@
         color: rgba(247, 248, 255, 0.64);
         font-size: 0.62rem;
         letter-spacing: 0.09em;
-        text-align: right;
+        text-align: left;
         text-transform: uppercase;
       }
 
@@ -369,7 +370,7 @@
 
         .voidFooterActions {
           display: grid;
-          justify-items: end;
+          justify-items: start;
         }
 
         .voidFeed {
@@ -428,14 +429,6 @@
             <span>Keep star gazing</span>
           </button>
         </div>
-      </section>
-
-      <footer class="voidFooter">
-        <div class="voidCountdown" aria-label="Redirect countdown">
-          <span>Returning home in</span>
-          <strong id="voidNumber" aria-live="polite">10</strong>
-        </div>
-        <span class="voidCode">Error / 404</span>
         <div class="voidFooterActions">
           <div class="voidFeed" id="voidFeed" aria-live="polite">
             <strong>Static star field</strong>
@@ -446,6 +439,14 @@
             Return home now
           </a>
         </div>
+      </section>
+
+      <footer class="voidFooter">
+        <div class="voidCountdown" aria-label="Redirect countdown">
+          <span>Returning home in</span>
+          <strong id="voidNumber" aria-live="polite">10</strong>
+        </div>
+        <span class="voidCode">Error / 404</span>
       </footer>
     </main>
 
