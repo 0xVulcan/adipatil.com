@@ -91,11 +91,12 @@
 
       .voidFooter {
         bottom: 0;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: flex-end;
       }
 
       .voidBrand,
-      .voidCode,
       .voidKicker,
       .voidCountdown span {
         font-size: 0.72rem;
@@ -119,6 +120,16 @@
       .voidBrand {
         font-size: 1rem;
         text-decoration: none;
+      }
+
+      .voidCode {
+        justify-self: center;
+        color: #f7f8ff;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: clamp(1.35rem, 2.4vw, 2.2rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
       }
 
       .voidMessage {
@@ -156,6 +167,7 @@
       }
 
       .voidHome {
+        justify-self: end;
         display: inline-flex;
         align-items: center;
         min-height: 44px;
@@ -181,9 +193,9 @@
 
       .voidCountdown {
         display: grid;
-        justify-items: end;
+        justify-items: start;
         gap: 5px;
-        text-align: right;
+        text-align: left;
       }
 
       .voidCountdown strong {
@@ -227,14 +239,29 @@
 
         .voidFooter {
           align-items: center;
+          gap: 10px;
         }
 
         .voidCountdown span {
-          max-width: 140px;
+          max-width: 100px;
         }
 
         .voidHome {
-          padding-inline: 13px;
+          width: 44px;
+          min-height: 44px;
+          justify-content: center;
+          padding: 0;
+          font-size: 0;
+        }
+
+        .voidHome::after {
+          content: "↗";
+          font-size: 1rem;
+        }
+
+        .voidCode {
+          align-self: end;
+          text-align: center;
         }
       }
 
@@ -254,7 +281,6 @@
 
       <header class="voidHeader">
         <a class="voidBrand" href="/" aria-label="Aditya Patil home">AP.</a>
-        <span class="voidCode">Error / 404</span>
       </header>
 
       <section class="voidMessage" aria-labelledby="voidTitle">
@@ -267,11 +293,12 @@
       </section>
 
       <footer class="voidFooter">
-        <a class="voidHome" href="/">Return home now</a>
         <div class="voidCountdown" aria-label="Redirect countdown">
           <span>Returning home in</span>
           <strong id="voidNumber" aria-live="polite">10</strong>
         </div>
+        <span class="voidCode">Error / 404</span>
+        <a class="voidHome" href="/">Return home now</a>
       </footer>
     </main>
 
